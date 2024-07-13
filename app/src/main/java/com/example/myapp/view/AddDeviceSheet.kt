@@ -10,7 +10,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -20,12 +19,16 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.myapp.LocalDeviceViewModel
+import com.example.myapp.model.Device
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddDeviceSheet(showSheet: (Boolean) -> Unit) {
+    val deviceViewModel = LocalDeviceViewModel.current
+
     val sheetState = rememberModalBottomSheetState()
     val scope = rememberCoroutineScope()
 
@@ -38,17 +41,6 @@ fun AddDeviceSheet(showSheet: (Boolean) -> Unit) {
         },
         sheetState = sheetState
     ) {
-        // Sheet content
-//        Button(onClick = {
-//            scope.launch { sheetState.hide() }.invokeOnCompletion {
-//                if (!sheetState.isVisible) {
-//                    showSheet(false)
-//                }
-//            }
-//        }) {
-//            Text("Hide bottom sheet")
-//        }
-
         Column(
             modifier = Modifier
                 .padding(horizontal = 24.dp)
@@ -88,17 +80,18 @@ fun AddDeviceSheet(showSheet: (Boolean) -> Unit) {
                     .fillMaxWidth()
                     .padding(top = 24.dp),
                 onClick = {
+                    val device = Device(name = inputName, count = inputCount.toInt())
+                    deviceViewModel.insertDevice(device)
 
+                    scope.launch { sheetState.hide() }.invokeOnCompletion {
+                        if (!sheetState.isVisible) {
+                            showSheet(false)
+                        }
+                    }
                 }
             ) {
                 Text(text = "Add")
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun AddDeviceSheetPreview() {
-    AddDeviceSheet(showSheet = { })
 }

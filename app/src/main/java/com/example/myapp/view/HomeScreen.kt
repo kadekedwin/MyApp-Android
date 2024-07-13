@@ -11,12 +11,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.myapp.viewmodel.HomeViewModel
 
 
 @Composable
-fun HomeScreen(homeViewModel: HomeViewModel = HomeViewModel(), modifier: Modifier = Modifier) {
+fun HomeScreen(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .verticalScroll(rememberScrollState())
@@ -30,7 +28,7 @@ fun HomeScreen(homeViewModel: HomeViewModel = HomeViewModel(), modifier: Modifie
             fontSize = 32.sp
         )
         WeatherCardView()
-        DeviceCardsView(homeViewModel = homeViewModel)
+        DeviceCardsView()
     }
 }
 

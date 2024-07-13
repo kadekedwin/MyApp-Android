@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -26,12 +27,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.myapp.LocalDeviceViewModel
+import com.example.myapp.R
+import com.example.myapp.model.Device
 import com.example.myapp.ui.theme.PrimaryColor
 import com.example.myapp.ui.theme.SecondaryColor
 
 
 @Composable
-fun DeviceCardView(title: String, count: Int, image: Int, modifier: Modifier = Modifier) {
+fun DeviceCardView(device: Device, modifier: Modifier = Modifier) {
+    val deviceViewModel = LocalDeviceViewModel.current
+
     var isActive by remember { mutableStateOf(false) }
 
     val transition = updateTransition(targetState = isActive)
@@ -58,7 +64,7 @@ fun DeviceCardView(title: String, count: Int, image: Int, modifier: Modifier = M
                             .align(Alignment.CenterVertically)
                     ) {
                         Image(
-                            painter = painterResource(id = image),
+                            painter = painterResource(R.drawable.ac),
                             contentDescription = null,
                             modifier = Modifier.padding(8.dp)
                         )
@@ -67,8 +73,18 @@ fun DeviceCardView(title: String, count: Int, image: Int, modifier: Modifier = M
                     SwitchComponent(isActive = isActive, toggleActive = { isActive = it })
                 }
                 Column {
-                    Text(text = title, fontSize = 18.sp, fontWeight = FontWeight.Bold)
-                    Text(text = "$count Device")
+                    Text(text = device.name, fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                    Text(text = "${device.count} Device")
+                    Button(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 24.dp),
+                        onClick = {
+                            deviceViewModel.deleteDevice(device)
+                        }
+                    ) {
+                        Text(text = "Delete")
+                    }
                 }
             }
         }

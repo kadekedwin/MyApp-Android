@@ -14,6 +14,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -21,9 +23,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.myapp.model.DeviceDao
 import com.example.myapp.view.AddDeviceSheet
 import com.example.myapp.view.HomeScreen
 import com.example.myapp.view.SettingScreen
+import com.example.myapp.viewmodel.DeviceViewModel
 
 @Composable
 fun BottomBar() {
@@ -78,8 +82,8 @@ fun BottomBar() {
     }
 }
 
-@Preview
-@Composable
-fun BottomBarPreview() {
-    BottomBar()
-}
+//@Preview
+//@Composable
+//fun BottomBarPreview() {
+//    BottomBar()
+//}
